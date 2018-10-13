@@ -27,21 +27,22 @@ $(document).ready(function() {
 	console.log( "ready!" );
 
 
-	$("#lalala").click(function(event){
-		$.ajax({
-			url: 'http://localhost:8080/olduserverify',
-			dataType: 'text',
-			type: 'POST',
-			contentType: 'application/x-www-form-urlencoded',
-			data: {a : 'a' , b : 'b'},
-			success: function( data, textStatus, jQxhr ){
-				alert(data);
-			},
-			error: function( jqXhr, textStatus, errorThrown ){
-				console.log( errorThrown );
-			}
-		});
-	});
+	// $("#lalala").click(function(event){
+	// 	alert("second");
+	// 	$.ajax({
+	// 		url: 'http://localhost:8080/olduserverify',
+	// 		dataType: 'text',
+	// 		type: 'POST',
+	// 		contentType: 'application/x-www-form-urlencoded',
+	// 		data: {a : 'a' , b : 'b'},
+	// 		success: function( data, textStatus, jQxhr ){
+	// 			alert(data);
+	// 		},
+	// 		error: function( jqXhr, textStatus, errorThrown ){
+	// 			console.log( errorThrown );
+	// 		}
+	// 	});
+	// });
 
 
 	$('#opt1').click(function(){

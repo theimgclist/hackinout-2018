@@ -32,7 +32,7 @@
 
         <div id="oldusersenddatabutton" style="display:block; align-items: center; width: 50%; margin-left: 13%;">
         	<!-- <button id=""verifyidentity" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button> -->
-            <button id="lalala" type="button" class="btn btn-info btn-block">Verify Identity</button>
+            <button id="lalala" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button>
         </div>
 
 
@@ -43,7 +43,7 @@
         <div style="width: 70%; margin-top:8em ">
         	
 
-        	<div style="    display: flex; align-items: center; margin-left: -1em; justify-content: space-evenly;">
+        	<div style=" display: flex; align-items: center; margin-left: -1em; justify-content: space-evenly;">
         		<div class="form-check-inline">
         			<label class="form-check-label active">
         				<input type="radio" class="form-check-input" name="optradio" id="opt1" checked="">Old User
@@ -107,17 +107,18 @@
             document.getElementById("my_camera_div").style.display = "none";
             document.getElementById("my_result_div").style.display = "block";
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            console.log(data_uri);
             verifyIdentity(data_uri);
         } );
     }
 
     function verifyIdentity(data_uri) {
-        var file =  data_uri;
-        var formdata = new FormData();
-        formdata.append("base64image", file);
+        // var file =  data_uri;
+        // var formdata = new FormData();
+        // formdata.append("base64image", file);
         $.ajax({
-            url: 'localhost:8080/olduserverify',
-            data: formData,
+            url: 'https://localhost:8080/olduserverify',
+            data: {data : data_uri},
             type: "POST", //ADDED THIS LINE
             // THIS MUST BE DONE FOR FILE UPLOADING
             contentType: false,

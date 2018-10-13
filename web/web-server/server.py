@@ -1,6 +1,7 @@
 import bottle
 from bottle import route, run
 from bottle import response
+from bottle import static_file
 
 
 # the decorator
@@ -17,6 +18,23 @@ def enable_cors(fn):
 
     return _enable_cors
 
+
+@route('/')
+@enable_cors
+def home_page():
+    return static_file('index.html', root='./../web-client/')
+
+@route('/css/<cssFile>')
+@enable_cors
+def serve_css_files(cssFile):
+    filePath = './../web-client/css/'
+    return static_file(cssFile, filePath)
+
+@route('/js/<jsFile>')
+@enable_cors
+def serve_js_files(jsFile):
+    filePath = './../web-client/js/'
+    return static_file(jsFile, filePath)
 
 @route('/hello')
 @enable_cors
