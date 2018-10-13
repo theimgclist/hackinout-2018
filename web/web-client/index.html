@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome!</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"> </script> 
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+  <span class="navbar-brand mb-0 h1">Marketplace</span>
+</nav>
+
+<div style="width:100%;"> <!-- Main Div -->
+    
+    <div style="float:left; width:50%;">
+        <div style="margin: 6em;">
+            <div id="my_camera_div" style="display: block;">
+                <div id="my_camera" style="width:320px; height:240px;"></div>
+            </div>
+            <div id="my_result_div" style="display: none">
+                <div id="my_result"></div>
+            </div>
+        </div>
+
+
+        <div style="    display: flex; align-items: center; margin-left: -9em; justify-content: space-evenly;">
+            <button type="button" class="btn btn-primary" onclick="take_snapshot()">Capture</button>
+            <button type="button" class="btn btn-primary" onclick="retake()">Reset</button>
+        </div>
+    </div>
+
+    <div style="float:left; width:50%;">
+        <div style="width: 70%; margin-top:8em ">
+            <form>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Paytm Number">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="OTP">
+                </div>
+              <button type="submit" class="btn btn-primary" style="">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<script language="JavaScript">
+
+    Webcam.attach( '#my_camera' );
+
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            document.getElementById("my_camera_div").style.display = "none";
+            document.getElementById("my_result_div").style.display = "block";
+            document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+    }
+
+</script>
+
+<script language="JavaScript">
+    function retake() {
+        document.getElementById("my_camera_div").style.display = "block";
+            document.getElementById("my_result_div").style.display = "none";
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</body>
+</html>
