@@ -25,35 +25,78 @@
         </div>
 
 
-        <div style="    display: flex; align-items: center; margin-left: -9em; justify-content: space-evenly;">
+        <div id="newusercaptureresetbuttonset" style="display: none; align-items: center; margin-left: -9em; justify-content: space-evenly">
             <button type="button" class="btn btn-primary" onclick="take_snapshot()">Capture</button>
             <button type="button" class="btn btn-primary" onclick="retake()">Reset</button>
         </div>
+
+        <div id="oldusersenddatabutton" style="display:block; align-items: center; width: 50%; margin-left: 13%;">
+        	<!-- <button id=""verifyidentity" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button> -->
+            <button id="lalala" type="button" class="btn btn-info btn-block">Verify Identity</button>
+        </div>
+
+
+
     </div>
 
     <div style="float:left; width:50%;">
         <div style="width: 70%; margin-top:8em ">
-            <form>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Name">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Paytm Number">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="OTP">
-                </div>
-              <button type="submit" class="btn btn-primary" style="">Submit</button>
-            </form>
+        	
+
+        	<div style="    display: flex; align-items: center; margin-left: -1em; justify-content: space-evenly;">
+        		<div class="form-check-inline">
+        			<label class="form-check-label active">
+        				<input type="radio" class="form-check-input" name="optradio" id="opt1" checked="">Old User
+        			</label>
+        		</div>
+        		<div class="form-check-inline">
+        			<label class="form-check-label">
+        				<input type="radio" class="form-check-input" name="optradio" id="opt2">New User
+        			</label>
+        		</div>
+        	</div>
+
+
+        	<br/>
+        	<br/>
+
+
+        	<div id="newuserenterdetailsform" style="display: none">
+	            <form>
+	                <div class="form-group">
+	                    <input class="form-control" type="text" placeholder="Name">
+	                </div>
+	                <div class="form-group">
+	                    <input class="form-control" type="text" placeholder="Email">
+	                </div>
+	                <div class="form-group">
+	                    <input class="form-control" type="text" placeholder="Paytm Number">
+	                </div>
+	                <div class="form-group">
+	                    <input class="form-control" type="text" placeholder="OTP">
+	                </div>
+	              <button id="senddatabutton" type="submit" class="btn btn-primary">Submit</button>
+	            </form>
+	        </div>
         </div>
     </div>
     
 </div>
 
 
+<script language="JavaScript">
+    function retake() {
+        document.getElementById("my_camera_div").style.display = "block";
+        document.getElementById("my_result_div").style.display = "none";
+    }
+</script>
+
+<script type="text/javascript">
+	
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/senddata.js"></script>
 
 <script language="JavaScript">
 
@@ -64,19 +107,32 @@
             document.getElementById("my_camera_div").style.display = "none";
             document.getElementById("my_result_div").style.display = "block";
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            verifyIdentity(data_uri);
         } );
     }
 
-</script>
-
-<script language="JavaScript">
-    function retake() {
-        document.getElementById("my_camera_div").style.display = "block";
-            document.getElementById("my_result_div").style.display = "none";
+    function verifyIdentity(data_uri) {
+        var file =  data_uri;
+        var formdata = new FormData();
+        formdata.append("base64image", file);
+        $.ajax({
+            url: 'localhost:8080/olduserverify',
+            data: formData,
+            type: "POST", //ADDED THIS LINE
+            // THIS MUST BE DONE FOR FILE UPLOADING
+            contentType: false,
+            processData: false,
+            // ... Other options like success and etc
+            success: function(msg){
+                alert(msg);
+            },
+            error: function(){
+                alert("failure");
+            }
+        });
     }
-</script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</script>
 
 </body>
 </html>
