@@ -17,7 +17,7 @@
     <div style="float:left; width:50%;">
         <div style="margin: 6em;">
             <div id="my_camera_div" style="display: block;">
-                <div id="my_camera" style="width:320px; height:240px;"></div>
+                <div id="my_camera" style="width:640px; height:480px;"></div>
             </div>
             <div id="my_result_div" style="display: none">
                 <div id="my_result"></div>
@@ -107,28 +107,51 @@
             document.getElementById("my_camera_div").style.display = "none";
             document.getElementById("my_result_div").style.display = "block";
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
-            console.log(data_uri);
-            verifyIdentity(data_uri);
+			console.log("asdadas");
+			//console.log(data_uri);
+			console.log("Doneeee");
+            msg = verifyIdentity(data_uri);
+			//alert(msg)
         } );
     }
+	
+	function dataURItoBlob(dataURI) {
+		var byteString = atob(dataURI.split(',')[1]);
+		var ab = new ArrayBuffer(byteString.length);
+		var ia = new Uint8Array(ab);
+		for (var i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+		}
+		return new Blob([ab], { type: 'image/jpeg' });
+	}
+
 
     function verifyIdentity(data_uri) {
-        // var file =  data_uri;
-        // var formdata = new FormData();
-        // formdata.append("base64image", file);
-        $.ajax({
-            url: 'https://localhost:8080/olduserverify',
-            data: {data : data_uri},
+	     console.log("Entered verifyIdentity");
+         var file =  data_uri;
+		 
+         var formdata = new FormData();
+         formdata.append('	', file);
+		 //console.log(file);
+         $.ajax({
+            url: '/olduserverify',
+			enctype: 'multipart/form-data',
+            data: file,
             type: "POST", //ADDED THIS LINE
             // THIS MUST BE DONE FOR FILE UPLOADING
             contentType: false,
             processData: false,
             // ... Other options like success and etc
             success: function(msg){
-                alert(msg);
+                //alert(msg);
+				document.getElementById("my_camera_div").style.display = "block";
+				document.getElementById("my_result_div").style.display = "none";
+				alert(msg);
             },
-            error: function(){
-                alert("failure");
+            error: function(msg){
+                alert("failure : "+msg);
+				document.getElementById("my_camera_div").style.display = "block";
+				document.getElementById("my_result_div").style.display = "none";
             }
         });
     }

@@ -1,7 +1,16 @@
 import bottle
 from bottle import route, run
-from bottle import response
+from bottle import response, request
 from bottle import static_file
+import base64
+import binascii
+import base64
+import pickle
+import io
+import os
+import sys
+from shutil import copyfile
+import uuid
 
 
 # the decorator
@@ -50,7 +59,46 @@ def newusersignup():
 @route('/olduserverify', method="POST")
 @enable_cors
 def olduserverify():
-    print("here")
-    return "done"
+    print("Entered olduserverify")
+    postdata = request.body.read()
+    file = open('xyz.jpg','wb')
+    file.write(postdata)
+    file.close
+    myfile = open('xyz.jpg', 'r')
+    a = myfile.read()
+    myfile.close()
+    #print(a)
+    i = a.find(',')
+    #print(i)
+    a = a[i+1:]
+    print(a[0])
+    #print(type(a))
+    import base64
+    imgdata = base64.b64decode(a)
+    #print(imgdata)
+    filename = str(uuid.uuid4())+'.jpg'  # I assume you have a way of picking unique filenames
+    print("filename: "+filename)
+    f = open(filename, 'wb')
+    f.write(imgdata)
+    f.close()
+    #copyfile("D:\\Projects\\HackInOut\\hackinout-2018-master\\web\\web-server\\"+filename,"D:\\Projects\\FaceDetectionFromBlog\\facematch\\database\\"+filename)
+    #os.remove("./"+filename)
+    #os.remove("./xyz.jpg")
+	#print(len(postdata))
+    #ime = image.open(io.BytesIO(lala))
+    #ime.save('./abcd.jpg')
+	#a = D:\Projects\FaceDetectionFromBlog\facematch\launch.py
+    path = "D:\\Projects\\FaceDetectionFromBlog\\facematch\\"
+    os.chdir(path)
+    #print(os.getcwd())
+    #sys.path.insert(0, r"D:\Projects\FaceDetectionFromBlog\facematch")
+    #import launch
+    match = -1
+    #match = launch.match(filename)
+    print("tadawwwwwwwww",match)
+    if match == -1:
+        return "No match found"
+    else:
+        return "Match found"
 
 run(host='localhost', port=8080, debug=True)
