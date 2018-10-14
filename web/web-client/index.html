@@ -17,7 +17,7 @@
     <div style="float:left; width:50%;">
         <div style="margin: 6em;">
             <div id="my_camera_div" style="display: block;">
-                <div id="my_camera" style="width:640px; height:480px;"></div>
+                <div id="my_camera" style="width:320px; height:240px;"></div>
             </div>
             <div id="my_result_div" style="display: none">
                 <div id="my_result"></div>
@@ -26,12 +26,11 @@
 
 
         <div id="newusercaptureresetbuttonset" style="display: none; align-items: center; margin-left: -9em; justify-content: space-evenly">
-            <button type="button" class="btn btn-primary" onclick="take_snapshot()">Capture</button>
+            <button type="button" class="btn btn-primary" onclick="new_user_snapshot()">Capture</button>
             <button type="button" class="btn btn-primary" onclick="retake()">Reset</button>
         </div>
 
         <div id="oldusersenddatabutton" style="display:block; align-items: center; width: 50%; margin-left: 13%;">
-        	<!-- <button id=""verifyidentity" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button> -->
             <button id="lalala" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button>
         </div>
 
@@ -69,13 +68,16 @@
 	                <div class="form-group">
 	                    <input class="form-control" type="text" placeholder="Email">
 	                </div>
-	                <div class="form-group">
-	                    <input class="form-control" type="text" placeholder="Paytm Number">
-	                </div>
+	                <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Paytm Number" aria-label="Paytm-Number" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Send OTP</button>
+                      </div>
+                    </div>
 	                <div class="form-group">
 	                    <input class="form-control" type="text" placeholder="OTP">
 	                </div>
-	              <button id="senddatabutton" type="submit" class="btn btn-primary">Submit</button>
+	             <button id="lalalala" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button>
 	            </form>
 	        </div>
         </div>
@@ -113,6 +115,15 @@
             msg = verifyIdentity(data_uri);
 			//alert(msg)
         } );
+    }
+
+    function new_user_snapshot() {
+        Webcam.snap( function(data_uri) {
+            document.getElementById("my_camera_div").style.display = "none";
+            document.getElementById("my_result_div").style.display = "block";
+            document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            msg = send_new_user_image(data_uri);
+        });
     }
 	
 	function dataURItoBlob(dataURI) {
@@ -155,6 +166,37 @@
             }
         });
     }
+
+    function send_new_user_image(data_uri) {
+         console.log("Entered send_new_user_image");
+         var file =  data_uri;
+         
+         var formdata = new FormData();
+         formdata.append('  ', file);
+         //console.log(file);
+         $.ajax({
+            url: '/newusersignupimage',
+            enctype: 'multipart/form-data',
+            data: file,
+            type: "POST", //ADDED THIS LINE
+            // THIS MUST BE DONE FOR FILE UPLOADING
+            contentType: false,
+            processData: false,
+            // ... Other options like success and etc
+            success: function(msg){
+                //alert(msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+                alert(msg);
+            },
+            error: function(msg){
+                alert("failure : "+msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+            }
+        });
+    }
+
 
 </script>
 

@@ -50,16 +50,10 @@ def serve_js_files(jsFile):
 def hello():
     return "Hello World!"
 
-@route('/newusersignup', method="POST")
+@route('/newusersignupimage', method="POST")
 @enable_cors
-def newusersignup():
-    for l in request.body:
-        print(l)
-
-@route('/olduserverify', method="POST")
-@enable_cors
-def olduserverify():
-    print("Entered olduserverify")
+def newusersignupimage():
+    print("Entered newusersignupimage")
     postdata = request.body.read()
     file = open('xyz.jpg','wb')
     file.write(postdata)
@@ -81,6 +75,40 @@ def olduserverify():
     f = open(filename, 'wb')
     f.write(imgdata)
     f.close()
+    copyfile(filename,"./database/"+filename)	
+    
+@route('/newuserdata', method="POST")
+@enable_cors
+def newuserdata():
+    print("Entered newuserdata")
+    postdata = request.body.read()
+    print(postdata)	
+
+@route('/olduserverify', method="POST")
+@enable_cors
+def olduserverify():
+    print("Entered olduserverify")
+    postdata = request.body.read()
+    file = open('xyz.jpg','wb')
+    file.write(postdata)
+    file.close
+    myfile = open('xyz.jpg', 'r')
+    a = myfile.read()
+    myfile.close()
+    #print(a)
+    i = a.find(',')
+    #print(i)
+    a = a[i+1:]
+    print(a[0])
+    #print(type(a))
+    import base64
+    imgdata = base64.b64decode(a)
+    print(imgdata)
+    filename = str(uuid.uuid4())+'.jpg'  # I assume you have a way of picking unique filenames
+    print("filename: "+filename)
+    f = open(filename, 'wb')
+    f.write(imgdata)
+    f.close()
     #copyfile("D:\\Projects\\HackInOut\\hackinout-2018-master\\web\\web-server\\"+filename,"D:\\Projects\\FaceDetectionFromBlog\\facematch\\database\\"+filename)
     #os.remove("./"+filename)
     #os.remove("./xyz.jpg")
@@ -88,8 +116,8 @@ def olduserverify():
     #ime = image.open(io.BytesIO(lala))
     #ime.save('./abcd.jpg')
 	#a = D:\Projects\FaceDetectionFromBlog\facematch\launch.py
-    path = "D:\\Projects\\FaceDetectionFromBlog\\facematch\\"
-    os.chdir(path)
+    #path = "D:\\Projects\\FaceDetectionFromBlog\\facematch\\"
+    #os.chdir(path)
     #print(os.getcwd())
     #sys.path.insert(0, r"D:\Projects\FaceDetectionFromBlog\facematch")
     #import launch

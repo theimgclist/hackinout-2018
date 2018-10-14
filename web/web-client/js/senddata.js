@@ -1,48 +1,28 @@
 $(document).ready(function() {
-	// $("#senddatabutton").click(function(event){
-	// 	var formData = new FormData();
-
-	// 	formData.append('section', 'general');
-	// 	formData.append('action', 'previewImg');
-	// 	// Attach file
-	// 	formData.append('image', $('input[type=file]')[0].files[0]); 
-
-	// 	$.ajax({
-	// 		url: 'localhost:8080/newusersignup',
-	// 	    data: formData,
-	// 	    type: "POST", //ADDED THIS LINE
-	// 	    // THIS MUST BE DONE FOR FILE UPLOADING
-	// 	    contentType: false,
-	// 	    processData: false,
-	// 	    // ... Other options like success and etc
-	// 		success: function(msg){
-	// 			alert(msg);
-	// 		},
-	// 		error: function(){
-	// 			alert("failure");
-	// 		}
-	// 	});
-	// });
 
 	console.log( "ready!" );
 
-
-	// $("#lalala").click(function(event){
-	// 	alert("second");
-	// 	$.ajax({
-	// 		url: 'http://localhost:8080/olduserverify',
-	// 		dataType: 'text',
-	// 		type: 'POST',
-	// 		contentType: 'application/x-www-form-urlencoded',
-	// 		data: {a : 'a' , b : 'b'},
-	// 		success: function( data, textStatus, jQxhr ){
-	// 			alert(data);
-	// 		},
-	// 		error: function( jqXhr, textStatus, errorThrown ){
-	// 			console.log( errorThrown );
-	// 		}
-	// 	});
-	// });
+	$("#lalalala").click(function(event){
+		alert("senddatabutton clicked");
+		$.ajax({
+			url: '/newuserdata',
+            enctype: 'multipart/form-data',
+            data: {a: 'a', b: 'b'},
+            type: "POST", //ADDED THIS LINE
+            // ... Other options like success and etc
+            success: function(msg){
+                //alert(msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+                alert(msg);
+            },
+            error: function(msg){
+                alert("failure : "+msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+            }
+		});
+	});
 
 
 	$('#opt1').click(function(){
