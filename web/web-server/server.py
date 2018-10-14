@@ -11,8 +11,10 @@ import os
 import sys
 from shutil import copyfile
 import uuid
+import json
 
 globalFileName = "lalalala";
+globalCommonDB = {};
 
 def getGlobalFileName():
     global globalFileName    # Needed to modify global copy of globvar
@@ -21,6 +23,11 @@ def getGlobalFileName():
 def setGlobalFileName(filename):
     global globalFileName    # Needed to modify global copy of globvar
     globalFileName = filename
+
+def addUserToDB(userID):
+	
+
+def deductBalanceFromDB(userID):
 
 
 # the decorator
@@ -140,11 +147,13 @@ def verifyIdentityForPayment():
     #sys.path.insert(0, r"D:\Projects\FaceDetectionFromBlog\facematch")
     #import launch
     match = -1
+    userID = 1
     #match = launch.match(filename)
     print("tadawwwwwwwww",match)
     if match == -1:
         return "-1"
     else:
+    	deductBalanceFromDB(userID)
         os.remove("D:\\Projects\\HackInOut\\hackinout-2018-master\\web\\web-server\\"+filename)
         return "Match found"
 
