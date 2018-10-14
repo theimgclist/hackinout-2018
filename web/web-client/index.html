@@ -27,11 +27,6 @@
         </div>
 
 
-        <div id="newusercaptureresetbuttonset" style="display: none; align-items: center; margin-left: -9em; justify-content: space-evenly">
-            <button type="button" class="btn btn-primary" onclick="new_user_snapshot()">Capture</button>
-            <button type="button" class="btn btn-primary" onclick="retake()">Reset</button>
-        </div>
-
         <div id="oldusersenddatabutton" style="display:block; align-items: center; width: 50%; margin-left: 13%;">
             <button id="lalala" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button>
         </div>
@@ -79,7 +74,7 @@
 	                <div class="form-group">
 	                    <input class="form-control" type="text" placeholder="OTP">
 	                </div>
-	             <button id="new_user_data_submit" type="button" class="btn btn-info btn-block" onclick="send_new_user_data()">Submit</button>
+	             <button id="new_user_data_submit" type="button" class="btn btn-info btn-block" onclick="new_user_tasks()">Submit</button>
 	            </form>
 	        </div>
         </div>
@@ -109,7 +104,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        Failure
+        Something Went Wrong! Please try again.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -146,6 +141,20 @@
 </div>
 
 
+<div class="modal fade" id="noFaceDetectedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        No Face Detected
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script language="JavaScript">
     function retake() {
         document.getElementById("my_camera_div").style.display = "block";
@@ -168,6 +177,11 @@
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
             msg = verifyIdentity(data_uri);
         } );
+    }
+
+    function new_user_tasks() {
+        send_new_user_data();
+        new_user_snapshot();
     }
 
     function new_user_snapshot() {

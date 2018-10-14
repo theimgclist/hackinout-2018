@@ -12,6 +12,16 @@ import sys
 from shutil import copyfile
 import uuid
 
+globalFileName = "lalalala";
+
+def getGlobalFileName():
+    global globalFileName    # Needed to modify global copy of globvar
+    return globalFileName
+
+def setGlobalFileName(filename):
+    global globalFileName    # Needed to modify global copy of globvar
+    globalFileName = filename
+
 
 # the decorator
 def enable_cors(fn):
@@ -75,7 +85,7 @@ def newusersignupimage():
     import base64
     imgdata = base64.b64decode(a)
     #print(imgdata)
-    filename = str(uuid.uuid4())+'.jpg'  # I assume you have a way of picking unique filenames
+    filename = getGlobalFileName()+'.jpg'  # I assume you have a way of picking unique filenames
     print("filename: "+filename)
     f = open(filename, 'wb')
     f.write(imgdata)
@@ -85,9 +95,59 @@ def newusersignupimage():
 @route('/newuserdata', method="POST")
 @enable_cors
 def newuserdata():
+    filename = str(uuid.uuid4());
+    setGlobalFileName(filename);
     print("Entered newuserdata")
     postdata = request.body.read()
     print(postdata)	
+
+
+@route('/verifyIdentityForPayment', method="POST")
+@enable_cors
+def verifyIdentityForPayment():
+    print("Entered verifyIdentityForPayment")
+    postdata = request.body.read()
+    file = open('xyz.jpg','wb')
+    file.write(postdata)
+    file.close
+    myfile = open('xyz.jpg', 'r')
+    a = myfile.read()
+    myfile.close()
+    #print(a)
+    i = a.find(',')
+    #print(i)
+    a = a[i+1:]
+    print(a[0])
+    #print(type(a))
+    import base64
+    imgdata = base64.b64decode(a)
+    print(imgdata)
+    filename = str(uuid.uuid4())+'.jpg'  # I assume you have a way of picking unique filenames
+    print("filename: "+filename)
+    f = open(filename, 'wb')
+    f.write(imgdata)
+    f.close()
+    #copyfile("D:\\Projects\\HackInOut\\hackinout-2018-master\\web\\web-server\\"+filename,"D:\\Projects\\FaceDetectionFromBlog\\facematch\\checkin\\"+filename)
+    #os.remove("./"+filename)
+    #os.remove("./xyz.jpg")
+	#print(len(postdata))
+    #ime = image.open(io.BytesIO(lala))
+    #ime.save('./abcd.jpg')
+	#a = D:\Projects\FaceDetectionFromBlog\facematch\launch.py
+    #path = "D:\\Projects\\FaceDetectionFromBlog\\facematch\\"
+    #os.chdir(path)
+    #print(os.getcwd())
+    #sys.path.insert(0, r"D:\Projects\FaceDetectionFromBlog\facematch")
+    #import launch
+    match = -1
+    #match = launch.match(filename)
+    print("tadawwwwwwwww",match)
+    if match == -1:
+        return "-1"
+    else:
+        os.remove("D:\\Projects\\HackInOut\\hackinout-2018-master\\web\\web-server\\"+filename)
+        return "Match found"
+
 
 @route('/olduserverify', method="POST")
 @enable_cors
@@ -132,6 +192,7 @@ def olduserverify():
     if match == -1:
         return "-1"
     else:
+        copyfile("D:\\Projects\\FaceDetectionFromBlog\\facematch\\database\\"+filename,"D:\\Projects\\FaceDetectionFromBlog\\facematch\\checkin\\"+filename)
         return "Match found"
 
 run(host='localhost', port=8080, debug=True)

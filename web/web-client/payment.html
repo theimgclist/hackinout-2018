@@ -87,18 +87,18 @@
             document.getElementById("my_camera_div").style.display = "none";
             document.getElementById("my_result_div").style.display = "block";
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
-            msg = verifyIdentity(data_uri);
+            msg = verifyIdentityForPayment(data_uri);
         } );
       }
 
-      function verifyIdentity(data_uri) {
-       console.log("Entered verifyIdentity");
+      function verifyIdentityForPayment(data_uri) {
+       console.log("Entered verifyIdentityForPayment");
        var file =  data_uri;
 
        var formdata = new FormData();
        formdata.append('  ', file);
        $.ajax({
-        url: '/olduserverify',
+        url: '/verifyIdentityForPayment',
         enctype: 'multipart/form-data',
         data: file,
             type: "POST", //ADDED THIS LINE
