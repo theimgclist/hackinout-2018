@@ -33,6 +33,11 @@ def enable_cors(fn):
 def home_page():
     return static_file('index.html', root='./../web-client/')
 
+@route('/payment')
+@enable_cors
+def payment_page():
+    return static_file('payment.html', root='./../web-client/')    
+
 @route('/css/<cssFile>')
 @enable_cors
 def serve_css_files(cssFile):
@@ -125,7 +130,7 @@ def olduserverify():
     #match = launch.match(filename)
     print("tadawwwwwwwww",match)
     if match == -1:
-        return "No match found"
+        return "-1"
     else:
         return "Match found"
 

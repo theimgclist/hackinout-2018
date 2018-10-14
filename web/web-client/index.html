@@ -4,12 +4,14 @@
 	<title>Welcome!</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"> </script> 
-
 </head>
 <body>
 
 <nav class="navbar navbar-dark bg-dark">
   <span class="navbar-brand mb-0 h1">Marketplace</span>
+  <form class="form-inline my-2 my-lg-0" action="/payment">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Payments Page</button>
+  </form>
 </nav>
 
 <div style="width:100%;"> <!-- Main Div -->
@@ -86,6 +88,64 @@
 </div>
 
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Success
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Failure
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="matchFoundModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Match Found
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="noMatchFoundModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        No Match Found
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script language="JavaScript">
     function retake() {
         document.getElementById("my_camera_div").style.display = "block";
@@ -93,11 +153,8 @@
     }
 </script>
 
-<script type="text/javascript">
-	
-</script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"> </script> 
 <script type="text/javascript" src="js/senddata.js"></script>
 
 <script language="JavaScript">
@@ -109,11 +166,7 @@
             document.getElementById("my_camera_div").style.display = "none";
             document.getElementById("my_result_div").style.display = "block";
             document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
-			console.log("asdadas");
-			//console.log(data_uri);
-			console.log("Doneeee");
             msg = verifyIdentity(data_uri);
-			//alert(msg)
         } );
     }
 
@@ -154,13 +207,15 @@
             processData: false,
             // ... Other options like success and etc
             success: function(msg){
-                //alert(msg);
+                if (msg == "-1")
+                    $("#noMatchFoundModal").modal();
+                else
+                    $("#matchFoundModal").modal();
 				document.getElementById("my_camera_div").style.display = "block";
 				document.getElementById("my_result_div").style.display = "none";
-				alert(msg);
             },
             error: function(msg){
-                alert("failure : "+msg);
+                $("#failureModal").modal();
 				document.getElementById("my_camera_div").style.display = "block";
 				document.getElementById("my_result_div").style.display = "none";
             }
@@ -184,13 +239,12 @@
             processData: false,
             // ... Other options like success and etc
             success: function(msg){
-                //alert(msg);
+                $("#successModal").modal();
                 document.getElementById("my_camera_div").style.display = "block";
                 document.getElementById("my_result_div").style.display = "none";
-                alert(msg);
             },
             error: function(msg){
-                alert("failure : "+msg);
+                $("#failureModal").modal();
                 document.getElementById("my_camera_div").style.display = "block";
                 document.getElementById("my_result_div").style.display = "none";
             }
@@ -198,24 +252,22 @@
     }
 
     function send_new_user_data() {
-        alert("send data called");
-        user-name = document.getElementById("new-user-name").value;
-        user-email = document.getElementById("new-user-email").value;
-        user-paytm = document.getElementById("new-user-paytm-number").value;
+        let username = document.getElementById("new-user-name").value;
+        let useremail = document.getElementById("new-user-email").value;
+        let userpaytm = document.getElementById("new-user-paytm-number").value;
         $.ajax({
             url: '/newuserdata',
             enctype: 'multipart/form-data',
-            data: {user-name : user-name, user-email: user-email, user-paytm: user-paytm},
+            data: {username : username, useremail: useremail, userpaytm: userpaytm},
             type: "POST", //ADDED THIS LINE
             // ... Other options like success and etc
             success: function(msg){
-                //alert(msg);
+                $("#successModal").modal();
                 document.getElementById("my_camera_div").style.display = "block";
                 document.getElementById("my_result_div").style.display = "none";
-                alert(msg);
             },
             error: function(msg){
-                alert("failure : "+msg);
+                $("#failureModal").modal();
                 document.getElementById("my_camera_div").style.display = "block";
                 document.getElementById("my_result_div").style.display = "none";
             }
