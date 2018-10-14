@@ -63,13 +63,13 @@
         	<div id="newuserenterdetailsform" style="display: none">
 	            <form>
 	                <div class="form-group">
-	                    <input class="form-control" type="text" placeholder="Name">
+	                    <input id="new-user-name" class="form-control" type="text" placeholder="Name">
 	                </div>
 	                <div class="form-group">
-	                    <input class="form-control" type="text" placeholder="Email">
+	                    <input id="new-user-email" class="form-control" type="text" placeholder="Email">
 	                </div>
 	                <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="Paytm Number" aria-label="Paytm-Number" aria-describedby="basic-addon2">
+                      <input id="new-user-paytm-number" type="text" class="form-control" placeholder="Paytm Number" aria-label="Paytm-Number" aria-describedby="basic-addon2">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button">Send OTP</button>
                       </div>
@@ -77,7 +77,7 @@
 	                <div class="form-group">
 	                    <input class="form-control" type="text" placeholder="OTP">
 	                </div>
-	             <button id="lalalala" type="button" class="btn btn-info btn-block" onclick="take_snapshot()">Verify Identity</button>
+	             <button id="new_user_data_submit" type="button" class="btn btn-info btn-block" onclick="send_new_user_data()">Submit</button>
 	            </form>
 	        </div>
         </div>
@@ -182,6 +182,31 @@
             // THIS MUST BE DONE FOR FILE UPLOADING
             contentType: false,
             processData: false,
+            // ... Other options like success and etc
+            success: function(msg){
+                //alert(msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+                alert(msg);
+            },
+            error: function(msg){
+                alert("failure : "+msg);
+                document.getElementById("my_camera_div").style.display = "block";
+                document.getElementById("my_result_div").style.display = "none";
+            }
+        });
+    }
+
+    function send_new_user_data() {
+        alert("send data called");
+        user-name = document.getElementById("new-user-name").value;
+        user-email = document.getElementById("new-user-email").value;
+        user-paytm = document.getElementById("new-user-paytm-number").value;
+        $.ajax({
+            url: '/newuserdata',
+            enctype: 'multipart/form-data',
+            data: {user-name : user-name, user-email: user-email, user-paytm: user-paytm},
+            type: "POST", //ADDED THIS LINE
             // ... Other options like success and etc
             success: function(msg){
                 //alert(msg);
